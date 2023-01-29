@@ -50,9 +50,17 @@ class SandwichMachine:
             self.input = input("What would you like to order today? (small/medium/large/off/report): ")
         if self.input == "off":
             sys.exit()
+        self.check_resources(recipes[self.input])
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
+        for x, y in ingredients["ingredients"].items():
+            for z, w in resources.items():
+                if x == z:
+                    if y > w:
+                        print("Insufficient", z, "cancelling order.")
+                        return False
+        return True
 
     def process_coins(self):
         """Returns the total calculated from coins inserted.
