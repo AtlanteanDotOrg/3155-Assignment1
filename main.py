@@ -50,7 +50,6 @@ class SandwichMachine:
             self.input = input("What would you like to order today? (small/medium/large/off/report): ")
         if self.input == "off":
             sys.exit()
-        self.check_resources(recipes[self.input])
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
@@ -75,6 +74,12 @@ class SandwichMachine:
     def transaction_result(self, coins, cost):
         """Return True when the payment is accepted, or False if money is insufficient.
            Hint: use the output of process_coins() function for cost input"""
+        if cost < coins:
+            print("Insufficient funds, cancelling order.")
+            return False
+        change = round(cost - coins, 2)
+        print("Thank you for purchasing! Here is your change: $", change)
+        return True
 
     def make_sandwich(self, sandwich_size, order_ingredients):
         """Deduct the required ingredients from the resources.
@@ -83,4 +88,6 @@ class SandwichMachine:
 # Make an instance of SandwichMachine class and write the rest of the codes #
 
 sandwich_shop = SandwichMachine(resources)
-sandwich_shop.process_coins()
+sandwich_shop.check_resources(recipes[sandwich_shop.input])
+money_input = sandwich_shop.process_coins()
+sandwich_shop.transaction_result(recipes[sandwich_shop.input]["cost"], money_input)
