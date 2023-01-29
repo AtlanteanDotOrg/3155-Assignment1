@@ -1,4 +1,5 @@
 # Data #
+import sys
 
 recipes = {
     "small": {
@@ -42,6 +43,13 @@ class SandwichMachine:
         """Receives resources as input.
            Hint: bind input variable to self variable"""
         self.machine_resources = machine_resources
+        self.input = input("What would you like to order today? (small/medium/large/off/report): ")
+        while self.input == "report":
+            for x, y in resources.items():
+                print(x, ": ", y)
+            self.input = input("What would you like to order today? (small/medium/large/off/report): ")
+        if self.input == "off":
+            sys.exit()
 
     def check_resources(self, ingredients):
         """Returns True when order can be made, False if ingredients are insufficient."""
@@ -59,3 +67,5 @@ class SandwichMachine:
            Hint: no output"""
 
 # Make an instance of SandwichMachine class and write the rest of the codes #
+
+sandwich_shop = SandwichMachine(resources)
