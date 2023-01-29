@@ -49,6 +49,7 @@ class SandwichMachine:
                 print(x, ": ", y)
             self.input = input("What would you like to order today? (small/medium/large/off/report): ")
         if self.input == "off":
+            print("Closing Up")
             sys.exit()
 
     def check_resources(self, ingredients):
@@ -84,10 +85,24 @@ class SandwichMachine:
     def make_sandwich(self, sandwich_size, order_ingredients):
         """Deduct the required ingredients from the resources.
            Hint: no output"""
+        for resource_name, resource_amt in order_ingredients.items():
+            for ingredient_name, ingredient_amt, in sandwich_size["ingredients"].items():
+                if resource_name == ingredient_name:
+                    ingredient_value = ingredient_amt
+                    current_value = resource_amt
+                    total = current_value - ingredient_value
+                    order_ingredients[resource_name] = total
 
 # Make an instance of SandwichMachine class and write the rest of the codes #
 
-sandwich_shop = SandwichMachine(resources)
-sandwich_shop.check_resources(recipes[sandwich_shop.input])
-money_input = sandwich_shop.process_coins()
-sandwich_shop.transaction_result(recipes[sandwich_shop.input]["cost"], money_input)
+running = True
+while running:
+    sandwich_shop = SandwichMachine(resources)
+    if sandwich_shop.check_resources(recipes[sandwich_shop.input]):
+        money_input = sandwich_shop.process_coins()
+        if sandwich_shop.transaction_result(recipes[sandwich_shop.input]["cost"], money_input):
+            sandwich_shop.make_sandwich(recipes[sandwich_shop.input], resources)
+    for x in resources.values():
+        if x == 0:
+            running = False
+print("Closing, need to restock.")
