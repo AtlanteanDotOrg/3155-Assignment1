@@ -48,3 +48,14 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
 }
+
+#appleman {
+    height: 50vh;
+    width: auto;
+    padding: 20px;
+}
+
+#godglasses {
+    height: 5vh;
+    width: auto;
+}
